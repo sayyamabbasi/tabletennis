@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Zepto Table Tennis</title>
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 20px;
+    }
+    .players {
+        margin-bottom: 20px;
+    }
+    .player-btn {
+        margin: 5px;
+        /* padding: 5px 10px; */
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f0f0f0;
+        width:29%;
+        height: 50px;
+        background-color: rgb(0, 217, 255);
+        /* font-weight: bold ; */
+    }
+    .player-btn.selected {
+        background-color: rgb(7, 218, 35);
+        color:white;
+        font-weight: bold !important;
+    }
+
+    .submit-btn {
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f0f0f0;
+        width:100%;
+        height: 40px;
+        color:white;
+        font-weight: bold !important;
+        background-color: green;
+        /* font-weight: bold ; */
+    }
+  
+</style>
+</head>
+<body style="background-color: #dfdfdf; padding-bottom: 50px;">
+    <h1 style="margin-top: 20px; width:100%;text-align: center;">Zepto Table Tennis</h1>
+<div class="container">
+    <div class="players">
+        <button class="player-btn" onclick="togglePlayer('Uzair')">Uzair</button>
+        <button class="player-btn" onclick="togglePlayer('Mudassir')">Mudassir</button>
+        <button class="player-btn" onclick="togglePlayer('Mansab')">Mansab</button>
+        <button class="player-btn" onclick="togglePlayer('Aqib')">Aqib</button>
+        <button class="player-btn" onclick="togglePlayer('Talha')">Talha</button>
+        <button class="player-btn" onclick="togglePlayer('Ahmed')">Ahmed</button>
+        <button class="player-btn" onclick="togglePlayer('Adnan')">Adnan</button>
+        <button class="player-btn" onclick="togglePlayer('Rafaqat')">Rafaqat</button>
+        <button class="player-btn" onclick="togglePlayer('Mehmood')">Mehmood</button>
+        <button class="player-btn" onclick="togglePlayer('Sayyam')">Sayyam</button>
+        <button class="player-btn" onclick="togglePlayer('Touseef')">Touseef</button>
+        <button class="player-btn" onclick="togglePlayer('Saidullah')">Saidullah</button>
+        <!-- Add more player buttons as needed -->
+    </div>
+    <button onclick="formRandomTeams()" class="submit-btn">Form Random Teams</button>
+    <div id="teams"></div>
+</div>
+
+<script>
+var selectedPlayers = [];
+
+function togglePlayer(playerName) {
+    var index = selectedPlayers.indexOf(playerName);
+    if (index === -1) {
+        selectedPlayers.push(playerName);
+        document.querySelector("[onclick=\"togglePlayer('" + playerName + "')\"]").classList.add("selected");
+    } else {
+        selectedPlayers.splice(index, 1);
+        document.querySelector("[onclick=\"togglePlayer('" + playerName + "')\"]").classList.remove("selected");
+    }
+}
+function formRandomTeams() {
+    console.log(selectedPlayers)
+    var players = [...selectedPlayers]
+    if (players.length < 2) {
+        alert("Please select at least 2 players.");
+        return;
+    }
+
+    var teams = [];
+    var numTeams = players.length / 2;
+
+    for (var i = 0; i < numTeams; i++) {
+        var team = [];
+        for (var j = 0; j < 2; j++) {
+            var randomIndex = Math.floor(Math.random() * players.length);
+            team.push(players[randomIndex]);
+            players.splice(randomIndex, 1);
+        }
+        teams.push(team);
+    }
+
+    var teamsDiv = document.getElementById("teams");
+    teamsDiv.innerHTML = "<h1>Created Teams</h1>";
+    for (var i = 0; i < teams.length; i++) {
+        teamsDiv.innerHTML += "<h3>Team " + (i + 1) + ": " + teams[i].join(", ") + "</h3>";
+    }
+}
+</script>
+</body>
+</html>
